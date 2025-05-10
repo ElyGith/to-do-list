@@ -1,0 +1,43 @@
+
+
+:root {
+      --background: 42 38% 3%;
+      --foreground: 42 10% 99%;
+      --muted: 42 20% 10%;
+      --muted-foreground: 42 15% 66%;
+      --popover: 42 38% 3%;
+      --popover-foreground: 42 10% 99%;
+      --card: 42 38% 3%;
+      --card-foreground: 42 10% 99%;
+      --border: 42 9% 13%;
+      --input: 42 9% 13%;
+      --primary: 42 100% 63%;
+      --primary-foreground: 42 100% 3%;
+      --secondary: 42 6% 17%;
+      --secondary-foreground: 42 6% 77%;
+      --accent: 42 6% 17%;
+      --accent-foreground: 42 6% 77%;
+      --destructive: 17 94% 50%;
+      --destructive-foreground: 0 0% 100%;
+      --ring: 42 100% 63%;
+      --chart-1: 42 100% 63%;
+      --chart-2: 42 6% 17%;
+      --chart-3: 42 6% 17%;
+      --chart-4: 42 6% 20%;
+      --chart-5: 42 103% 63%;
+    }
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
