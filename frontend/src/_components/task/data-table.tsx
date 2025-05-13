@@ -16,10 +16,14 @@ import {
     TableRow,
 } from "@/components/ui/table"
 
+
+
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
     data: TData[]
 }
+
+
 
 export function DataTable<TData, TValue>({
     columns,
@@ -31,12 +35,16 @@ export function DataTable<TData, TValue>({
         getCoreRowModel: getCoreRowModel(),
     })
 
+
+
     return (
+        
         <div className="rounded-md border">
+
             <Table>
                 <TableHeader>
                     {table.getHeaderGroups().map((headerGroup) => (
-                        <TableRow key={headerGroup.id}>
+                        <TableRow key={headerGroup.id} >
                             {headerGroup.headers.map((header) => {
                                 return (
                                     <TableHead key={header.id}>
@@ -60,7 +68,7 @@ export function DataTable<TData, TValue>({
                                 data-state={row.getIsSelected() && "selected"}
                             >
                                 {row.getVisibleCells().map((cell) => (
-                                    <TableCell key={cell.id}>
+                                    <TableCell key={cell.id} className="relative hover:text-blue-500 ">
                                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                     </TableCell>
                                 ))}
