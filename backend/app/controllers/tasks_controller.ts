@@ -8,7 +8,6 @@ export default class TasksController {
     async createTask({ request, response }: HttpContext) {
         
         const data = await request.validateUsing(addTaskValidator)
-        //si j'ai pas de verif à faire je peux direct mettre le body 
 
         const task = await Task.create(data)
 
@@ -23,7 +22,7 @@ export default class TasksController {
 
     async getTaskSearch({request,response}:HttpContext)
     {
-        const nom = request.qs().nom // récupère ?search=... dans l'URL
+        const nom = request.qs().nom 
         const searchTask = await Task.query().
         where('task_name', 'like', `%${nom}%`)
         
@@ -35,15 +34,17 @@ export default class TasksController {
         return response.send(tasks)
     }
 
-    async deleteTask({ params,  }:HttpContext) {
+    async deleteTask({ params, response }:HttpContext) {
         const task = await Task.findOrFail(params.id)
         await task. delete()    
+
+        return response.ok({ message : 'tache supprimée', id : params.id})
     }
 
     async updateTask({ params, request, response }:HttpContext) {
         const task = await Task.findOrFail(params.id)
         const data = request.body()
-        task.updatedAt = DateTime.now() // Luxon dateTime is used
+        task.updatedAt = DateTime.now() 
         task.merge(data)
         await task.save()
         return response.status(200).send(task)

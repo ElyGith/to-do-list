@@ -7,16 +7,22 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { callDeleteTask } from "@/services/taskService";
+import { Task } from "./Task";
+
 
 
 type ActionsCellProps = {
     id : string
     handleEdit: (id: string) => void;
+    handleDelete : (id:string)=> void;
+    handleAdd: (id: Task) => void;
+
 };
 
 
 
-export const ActionsCell = ({id, handleEdit}: ActionsCellProps) => {
+export const ActionsCell = ({id, handleEdit,handleDelete}: ActionsCellProps) => {
     return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -28,7 +34,8 @@ export const ActionsCell = ({id, handleEdit}: ActionsCellProps) => {
             <DropdownMenuContent align="end" className="bg-white shadow-md border z-40">
         <DropdownMenuLabel>Actions</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Supprimer</DropdownMenuItem>
+          <DropdownMenuItem onClick={()=>handleDelete(id)}
+            >Supprimer</DropdownMenuItem>
 
         <DropdownMenuItem onClick={() => handleEdit(id)}>
           Modifier la tâche

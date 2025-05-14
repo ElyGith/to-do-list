@@ -11,6 +11,12 @@ export default class Task extends BaseModel {
   @column()
   declare task_name: string
 
+  @column()
+  declare liste: string
+
+  @column()
+  declare priorite: number
+
   @column ()
   declare note: string
 

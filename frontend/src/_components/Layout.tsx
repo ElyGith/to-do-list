@@ -1,6 +1,6 @@
 
 import { SideBar } from './SideBar'
-import { Task } from './Task'
+import { Task } from './task/Task'
 
 export const Layout = () => {
     return (

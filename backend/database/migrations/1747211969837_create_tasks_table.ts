@@ -9,6 +9,8 @@ export default class extends BaseSchema {
       table.boolean('is_done').defaultTo(false)
       table.string('task_name')
       table.string('note')
+      table.string('liste')
+      table.integer('priorite')
 
 
 

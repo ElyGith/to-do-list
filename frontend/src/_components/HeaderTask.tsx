@@ -1,8 +1,14 @@
 import { Button } from "@/components/ui/button"
 import { Plus } from "lucide-react"
+import type { Task } from "./task/Task" 
 
 
-export const HeaderTask = () => {
+type HeaderTaskProps = {
+
+    handleAdd:(id:Task) => void;
+}
+
+export const HeaderTask = ({handleAdd}:HeaderTaskProps) => {
     return (
         <h1 className="text-2xl font-semibold mb-4">Mes tâches
             <Button>

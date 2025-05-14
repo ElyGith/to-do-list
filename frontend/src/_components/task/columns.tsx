@@ -4,38 +4,39 @@
 import type { ColumnDef } from "@tanstack/react-table"
 
 import { ActionsCell } from "./ActionsCell"
+import type { Task } from "./Task"
 
-export type Task = {
-    id: string 
-    name: string
-    status: "pending" | "success" | "failed" | null
-    date : string,
-    note? : string,
-    liste? : string
+type ColumnsProps = {
+    handleEdit: (id: string) => void;
+    handleDelete: (id: string) => void;
+    handleAdd:(id:Task) => void;
 
 }
 
-
 //Ce qui va s'afficher
-export const columns = (handleEditvar: (id: string) => void): ColumnDef<Task>[] => [
+export const columns = ({ handleEdit, handleDelete,handleAdd }: ColumnsProps): ColumnDef<Task>[] => [
     {
-        accessorKey: "status",
-        header: "status",
+        accessorKey: "isDone",
+        header: "isDone",
     },
     {
-        accessorKey: "name",
+        accessorKey: "taskName",
         header: "Nom",
     },
     {
-        accessorKey: "date",
-        header: "Date",
+        accessorKey: "updatedAt",
+        header: "updatedAt",
+    },
+    {
+        accessorKey:"liste",
+        header:"liste",
     },
     {
     id: "actions",
     cell: (row) => {
         const task = row.row.original
 
-        return <ActionsCell id={task.id} handleEdit={handleEditvar} />;
+        return <ActionsCell id={task.id} handleEdit={handleEdit} handleDelete={handleDelete} handleAdd={handleAdd} />;
     },
 },
   
@@ -46,106 +47,4 @@ export const columns = (handleEditvar: (id: string) => void): ColumnDef<Task>[] 
 
 
 
-export const data_task: Task[] = [
-    {
-        id: "728ed52f",
-        date: "22/10/2023",
-        status: "pending",
-        name: "m@bihihu.com",
-        note: "Lorem  dolor sit amet, conse",
-        liste :"all"
-    },
-    {
-        id: "jzbrfiuzefb12345",
-        date: "22/10/2023",
-        status: "pending",
-        name: "m@example.com",
-        note: "Lorem",
-        liste: "all"
-    },
-    {
-        id: "",
-        date: "",
-        status: null,
-        name: "mzrtqzrg",
-        note: "", 
-        liste: "all"
-    }
-    ,
-    {
-        id: "jzbrfiuzefb12345",
-        date: "22/10/2023",
-        status: "pending",
-        name: "m@example.com",
-        note: "Lorem",
-        liste: "all"
-    },
-    
-    {
-        id: "jzbrfiuzefb12345",
-        date: "22/10/2023",
-        status: "pending",
-        name: "m@example.com",
-        note: "Lorem",
-        liste: "all"
-    }
-    ,
-    {
-        id: "jzbrfiuzefb12345",
-        date: "22/10/2023",
-        status: "pending",
-        name: "m@example.com",
-        note: "Lorem",
-        liste: "all"
-    },
-    {
-        id: "jzbrfiuzefb12345",
-        date: "22/10/2023",
-        status: "pending",
-        name: "m@example.com",
-        note: "Lorem",
-        liste: "all"
-    },
-    {
-        id: "jzbrfiuzefb12345",
-        date: "22/10/2023",
-        status: "pending",
-        name: "m@example.com",
-        note: "Lorem",
-        liste: "all"
-    },
-    {
-        id: "jzbrfiuzefb12345",
-        date: "22/10/2023",
-        status: "pending",
-        name: "m@example.com",
-        note: "Lorem",
-        liste: "all"
-    },
-    {
-        id: "jzbrfiuzefb12345",
-        date: "22/10/2023",
-        status: "pending",
-        name: "m@example.com",
-        note: "Lorem",
-        liste: "all"
-    },
-    {
-        id: "jzbrfiuzefb12345",
-        date: "22/10/2023",
-        status: "pending",
-        name: "m@example.com",
-        note: "Lorem",
-        liste: "all"
-    },
-    {
-        id: "jzbrfiuzefb12345",
-        date: "22/10/2023",
-        status: "pending",
-        name: "m@example.com",
-        note: "Lorem",
-        liste: "all"
-    }
 
-    // ...
-]
