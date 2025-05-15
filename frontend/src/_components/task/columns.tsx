@@ -33,10 +33,11 @@ export const columns = ({ handleEdit, handleDelete,handleAdd }: ColumnsProps): C
     },
     {
     id: "actions",
+    header:"options",
     cell: (row) => {
         const task = row.row.original
 
-        return <ActionsCell id={task.id} handleEdit={handleEdit} handleDelete={handleDelete} handleAdd={handleAdd} />;
+        return <ActionsCell id={task.id ?? ""} handleEdit={handleEdit} handleDelete={handleDelete} handleAdd={handleAdd} />;
     },
 },
   

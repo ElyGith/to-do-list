@@ -24,7 +24,7 @@ export default class TasksController {
     {
         const nom = request.qs().nom 
         const searchTask = await Task.query().
-        where('task_name', 'like', `%${nom}%`)
+        where('taskName', 'like', `%${nom}%`)
         
         return response.send(searchTask)
     }
@@ -44,7 +44,7 @@ export default class TasksController {
     async updateTask({ params, request, response }:HttpContext) {
         const task = await Task.findOrFail(params.id)
         const data = request.body()
-        task.updatedAt = DateTime.now() 
+        task.updated_at = DateTime.now() 
         task.merge(data)
         await task.save()
         return response.status(200).send(task)

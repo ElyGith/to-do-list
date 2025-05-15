@@ -22,18 +22,16 @@ const sidebarVariants = {
 
 export const SideBar = () => {
     return (
-        <aside className="h-full w-[15rem] sm:w-[20vw] md:w-[15rem] bg-gray-800 text-white p-4 ">
+        <aside className="h-full bg-gray-800 text-white p-4 ">
         <h2 className="text-xl font-bold mb-4">Menu</h2>
-            <ul> 
+            <ul > 
                 <li>
-                    <Button>
+                    <Button className="hover:text-blue-500">
                         <Plus className="mr-2 h-4 w-4" />
                         Ajouter une liste
                     </Button>
                  </li>
-                <li>Toutes les tâches</li>
-                <li>Aujourd'hui</li>
-                <li>Complétées</li>
+                <li className="hover:text-blue-500">Toutes les tâches</li>
             </ul>
         </aside>
     );

@@ -3,18 +3,19 @@ import { DataTable } from "./data-table";
 import { columns } from "./columns";
 import { useState, useEffect } from "react";
 import { SetTaskDialog } from "./SetTaskDialog";
-import { callGetAllTasks, callDeleteTask, callCreateTask } from "@/services/taskService";
+import { callGetAllTasks, callDeleteTask, callCreateTask, callUpdateTask } from "@/services/taskService";
 
 
 export type Task = {
-    id: string
-    taskName: string,
-    isDone: boolean,
+    id?: string,
+    created_at?: Date,
+    updated_at?: Date,
+
+    task_name: string,
+    is_done?: boolean,
     note?: string,
     liste?: string,
-    createAt: Date,
-    updateAt: Date,
-    priorite: number
+    priorite?: number
 
 
 }
@@ -51,16 +52,40 @@ export const Task = () => {
         
      }  
   
-    async function handleAdd(task : Task) {
-        await callCreateTask(task)
-        await loadTasks()
-
+    async function handleAdd() {
+        setSelectedTask(null)
+        setOpen(true);
+    //    await callCreateTask() dans le handler de setTaskDialog
     }  
+
+    const handleSubmitTask = (data: Task) => {
+        console.log(`test before !!! => `,data)
+
+        if(!data.id)
+        {
+            console.log(`test Create =>  ${data}`)
+            callCreateTask(data)
+        }
+        else
+        {
+            console.log(`test UPDATE =>  ${data}`)
+
+            callUpdateTask(data)
+
+        }
+        console.log("Tâche traitée :", data); //appel a post ou put 
+        setOpen(false); // pour fermer le dialogue
+        loadTasks()
+      };
+      
+
+
+
     return (
         <main className="flex flex-col gap-4 w-full p-6">
             <HeaderTask handleAdd={handleAdd} />
 
-            <SetTaskDialog taskName={selectedTask} open={open} setOpen={setOpen}/>
+            <SetTaskDialog taskName={selectedTask} open={open} setOpen={setOpen} parameterSubmit={handleSubmitTask}/>
 
             <DataTable columns={columns({ handleEdit, handleDelete,handleAdd})} data={dataTask}/>
 

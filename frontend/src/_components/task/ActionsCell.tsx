@@ -13,7 +13,7 @@ import { Task } from "./Task";
 
 
 type ActionsCellProps = {
-    id : string
+    id : string;
     handleEdit: (id: string) => void;
     handleDelete : (id:string)=> void;
     handleAdd: (id: Task) => void;
@@ -32,16 +32,16 @@ export const ActionsCell = ({id, handleEdit,handleDelete}: ActionsCellProps) => 
       </DropdownMenuTrigger>
 
             <DropdownMenuContent align="end" className="bg-white shadow-md border z-40">
-        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+        <DropdownMenuLabel>Options</DropdownMenuLabel>
         <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={()=>handleDelete(id)}
+          <DropdownMenuItem onClick={() => handleDelete(id)} className="hover:text-blue-600"
             >Supprimer</DropdownMenuItem>
 
-        <DropdownMenuItem onClick={() => handleEdit(id)}>
+          <DropdownMenuItem onClick={() => handleEdit(id)} className="hover:text-blue-600">
           Modifier la tâche
         </DropdownMenuItem>
 
-        <DropdownMenuItem>Autre action</DropdownMenuItem>
+          <DropdownMenuItem className="hover:text-blue-600">Autre action</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu >
     );

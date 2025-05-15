@@ -9,7 +9,7 @@ export const callGetTaskSearch = async (): Promise<Task[]> => {
 }
 
 export const callGetTasks = async (): Promise<Task[]> => {
-    const res = await fetch(`${APIurl}/task/:id`)
+    const res = await fetch(`${APIurl}/task/id`)
     return await res.json()
 }
 
@@ -27,6 +27,10 @@ export const callCreateTask = async (task: Task): Promise<Task> => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(task)
     })
+    if (!res.ok) {
+        const error = await res.json();
+        console.error("Erreur backend :", error);
+      }
     return await res.json()
 }
   
@@ -43,10 +47,15 @@ export const callDeleteTask = async (id:string): Promise<Task> => {
 }
 
 export const callUpdateTask = async (task: Partial<Task>): Promise<Task> => {
-    const res = await fetch(`${APIurl}/task/:${task.id}`, {
+    const res = await fetch(`${APIurl}/task/${task.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(task)
     })
     return await res.json()
 }
+/*
+export const callGetNameById = async(id:string)=>{
+    const res = await
+}
+    */

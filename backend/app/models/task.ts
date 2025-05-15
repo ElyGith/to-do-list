@@ -9,7 +9,7 @@ export default class Task extends BaseModel {
   declare is_done : boolean
 
   @column()
-  declare task_name: string
+  declare task_name: string //map automatiquement sur task_name
 
   @column()
   declare liste: string
@@ -21,8 +21,8 @@ export default class Task extends BaseModel {
   declare note: string
 
   @column.dateTime({ autoCreate: true })
-  declare createdAt: DateTime
+  declare created_at: DateTime
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
-  declare updatedAt: DateTime
+  declare updated_at: DateTime
 }

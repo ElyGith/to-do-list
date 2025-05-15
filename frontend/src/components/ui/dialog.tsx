@@ -33,7 +33,6 @@ const DialogOverlay = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
 >(({ className, ...props }, ref) => {
   return (
-    console.log("DialogOverlay => ", ref),
     <DialogPrimitive.Overlay
       ref={ref}
       data-slot="dialog-overlay"
