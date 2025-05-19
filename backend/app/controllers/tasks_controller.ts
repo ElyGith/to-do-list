@@ -2,12 +2,16 @@ import type { HttpContext } from '@adonisjs/core/http'
 import Task from '#models/task'
 import { addTaskValidator } from '#validators/addTaskValidator'
 import { DateTime } from  "luxon";
+import snakecaseKeys from 'snakecase-keys'
+
 
 export default class TasksController {
 
     async createTask({ request, response }: HttpContext) {
+        const dataCamel = request.all()
+        const dataSanake = snakecaseKeys(dataCamel)
         
-        const data = await request.validateUsing(addTaskValidator)
+        const data = await addTaskValidator.validate(dataSanake)
 
         const task = await Task.create(data)
 
@@ -43,7 +47,12 @@ export default class TasksController {
 
     async updateTask({ params, request, response }:HttpContext) {
         const task = await Task.findOrFail(params.id)
-        const data = request.body()
+
+        const dataCamel = request.all()
+        const dataSanake = snakecaseKeys(dataCamel)
+
+        const data = await addTaskValidator.validate(dataSanake)
+        
         task.updated_at = DateTime.now() 
         task.merge(data)
         await task.save()

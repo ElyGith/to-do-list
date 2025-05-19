@@ -8,8 +8,8 @@ export const callGetTaskSearch = async (): Promise<Task[]> => {
     return await res.json()
 }
 
-export const callGetTasks = async (): Promise<Task[]> => {
-    const res = await fetch(`${APIurl}/task/id`)
+export const callGetTasks = async (id:string): Promise<Task> => {
+    const res = await fetch(`${APIurl}/task/${id}`)
     return await res.json()
 }
 
@@ -21,7 +21,7 @@ export const callGetAllTasks = async (): Promise<Task[]> => {
 
 
 
-export const callCreateTask = async (task: Task): Promise<Task> => {
+export const callCreateTask = async (task: Task | null ): Promise<Task> => {
     const res = await fetch(`${APIurl}/task`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -54,8 +54,3 @@ export const callUpdateTask = async (task: Partial<Task>): Promise<Task> => {
     })
     return await res.json()
 }
-/*
-export const callGetNameById = async(id:string)=>{
-    const res = await
-}
-    */

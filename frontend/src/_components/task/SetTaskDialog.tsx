@@ -14,14 +14,15 @@ import { useForm } from "react-hook-form"
 import type { Task } from "./Task"
 
 export type propSetTaskDialog = {
-    taskName: string | null;
+
+    taskValue: Task | null ;
     open : boolean;
     setOpen : (value : boolean) => void;
     parameterSubmit: (value : Task)=>void;
 }   
 
 
-export function SetTaskDialog({ taskName, open,setOpen,parameterSubmit}: propSetTaskDialog) {
+export function SetTaskDialog({ taskValue, open,setOpen,parameterSubmit}: propSetTaskDialog) {
     const {
         register,
         reset,
@@ -30,7 +31,16 @@ export function SetTaskDialog({ taskName, open,setOpen,parameterSubmit}: propSet
     } = useForm<Task>(
         {
             mode: "onTouched",    
-            reValidateMode: "onBlur"
+            reValidateMode: "onBlur",
+            defaultValues: taskValue || {
+                id: "",
+                taskName: "",
+                isDone:"",
+                note: "",
+                liste:"",
+                priorite:1
+            
+            }
         }
     );
 
@@ -39,14 +49,34 @@ export function SetTaskDialog({ taskName, open,setOpen,parameterSubmit}: propSet
 
 
     useEffect(() => {
-        if (taskName == null) {
+        if (taskValue == null) {
             reset();
             setTitle("Crée une nouvelle tâche")
         } else {
             reset();
-            setTitle(`Modifier la tâche : ${taskName}`)
+            setTitle(`Modifier la tâche : ${taskValue.id}`)
         }
-    }, [taskName,reset])  
+    }, [taskValue,reset])  
+
+    const onSubmit = (data: Task) => {
+        console.log("data :",data);
+        console.log("taskValue :",taskValue);
+
+        const preservedFields = {
+            id: taskValue?.id,          // Toujours garder l'id original
+            createdAt: taskValue?.createdAt,  // Conserver la date de création
+        };
+
+        const submittedData = {
+            ...data, 
+            ...preservedFields             
+        } as Task;
+
+        console.log("submitted data :",submittedData)
+        
+        parameterSubmit(submittedData);
+        setOpen(false);
+    };
 
     return (
         <Dialog open={open} onOpenChange={setOpen} >
@@ -58,22 +88,22 @@ export function SetTaskDialog({ taskName, open,setOpen,parameterSubmit}: propSet
 
                     </DialogDescription>
                 </DialogHeader>
-                <form onSubmit={handleSubmit(parameterSubmit)}>
+                <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="grid grid-cols-4 items-center gap-4">
-                            <Label htmlFor="task_name" className="text-right">Nom de la tâche :</Label>
+                            <Label htmlFor="taskName" className="text-right">Nom de la tâche :</Label>
                         <Input
                             id="task_name"
                             type="text"
-                            {...register("task_name", {
+                            {...register("taskName", {
                                 required: "Le nom de la tâche est obligatoire",
                                 validate: (value) =>
                                     value.trim() !== "" || "Ne peut pas être vide",
                             })}
                             className="col-span-3"
                         />
-                        {errors.task_name && (
+                        {errors.taskName && (
                             <span className="col-span-4 text-red-500 text-sm text-right">
-                                {errors.task_name.message}
+                                {errors.taskName.message}
                             </span>
                         )}
                         </div>
@@ -89,19 +119,22 @@ export function SetTaskDialog({ taskName, open,setOpen,parameterSubmit}: propSet
                             {errors.date && <span className="col-span-4 text-red-500 text-sm text-right">Champ requis</span>}
                         </div>
 
-                        */}
+*/}
 
-{taskName && (
+{taskValue && (
                         <div className="grid grid-cols-4 items-center gap-4">
                             <Label htmlFor="is_done" className="text-right">Terminée </Label>
                             <Input
                                 type="checkbox"
-                                id="is_done"
-                                {...register("is_done")}
+                                id="isDone"
+                                value="true"
+                                {...register("isDone")}
                                 className="col-span-3"
                             />
                         </div>
 )}
+
+
                         <div className="grid grid-cols-4 items-center gap-4">
                             <Label htmlFor="note" className="text-right">Note :</Label>
                             <Input

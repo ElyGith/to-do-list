@@ -1,5 +1,6 @@
 "use client"
 import type { ColumnDef } from "@tanstack/react-table"
+import type { Task } from './Task'
 import {
     
     flexRender,
@@ -21,6 +22,7 @@ import {
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
     data: TData[]
+    handleSubmitChange: (id:string)=> void;
 }
 
 
@@ -28,6 +30,7 @@ interface DataTableProps<TData, TValue> {
 export function DataTable<TData, TValue>({
     columns,
     data,
+    handleSubmitChange,
 }: DataTableProps<TData, TValue>) {
     const table = useReactTable({
         data,
@@ -35,16 +38,18 @@ export function DataTable<TData, TValue>({
         getCoreRowModel: getCoreRowModel(),
     })
 
+    { console.log("koloupitchouuuu => ",) }
 
 
     return (
         
         <div className="rounded-md border">
 
-            <Table>
+            <Table >
                 <TableHeader>
                     {table.getHeaderGroups().map((headerGroup) => (
                         <TableRow key={headerGroup.id} >
+
                             {headerGroup.headers.map((header) => {
                                 return (
                                     <TableHead key={header.id}>
@@ -67,14 +72,42 @@ export function DataTable<TData, TValue>({
                                 key={row.id}
                                 data-state={row.getIsSelected() && "selected"}
                             >
+
+                                
                                 {row.getVisibleCells().map((cell) => (
                                     <TableCell key={cell.id} className="relative hover:text-blue-500 ">
-                                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+
+
+                                        {typeof cell.getValue() === 'boolean' ||
+                                            String(cell.getValue()).toLowerCase() === 'true' ||
+                                            String(cell.getValue()).toLowerCase() === 'false' 
+                                             ? (
+                                            <input
+                                                type="checkbox"
+                                                checked={
+                                                    cell.getValue() === true ||
+                                                    String(cell.getValue()).toLowerCase() === 'true'
+                                                }
+                                                onChange={
+                                                    () => { 
+                                                        const id = (row.original as Task)?.id; // string
+                                                        if (id !== undefined) {
+                                                            handleSubmitChange(id)
+                                                        }
+                                                    }
+                                                }
+                                                className="cursor-pointer"
+                                            />
+                                        ) : (
+                                            flexRender(cell.column.columnDef.cell, cell.getContext())
+                                        )}
+
                                     </TableCell>
                                 ))}
                             </TableRow>
                         ))
-                    ) : (
+                    ) : 
+                    (
                         <TableRow>
                             <TableCell colSpan={columns.length} className="h-24 text-center">
                                 No results.

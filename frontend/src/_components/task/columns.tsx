@@ -18,6 +18,7 @@ export const columns = ({ handleEdit, handleDelete,handleAdd }: ColumnsProps): C
     {
         accessorKey: "isDone",
         header: "isDone",
+
     },
     {
         accessorKey: "taskName",

@@ -1,18 +1,18 @@
 import { HeaderTask } from "../HeaderTask";
-import { DataTable } from "./data-table";
-import { columns } from "./columns";
+import { DataTable } from "./DataTable";
+import { columns } from "./Columns";
 import { useState, useEffect } from "react";
 import { SetTaskDialog } from "./SetTaskDialog";
-import { callGetAllTasks, callDeleteTask, callCreateTask, callUpdateTask } from "@/services/taskService";
+import { callGetTasks,callGetAllTasks, callDeleteTask, callCreateTask, callUpdateTask } from "@/services/taskService";
 
 
 export type Task = {
     id?: string,
-    created_at?: Date,
-    updated_at?: Date,
+    createdAt?: Date,
+    updatedAt?: Date,
 
-    task_name: string,
-    is_done?: boolean,
+    taskName: string,
+    isDone?:  string,
     note?: string,
     liste?: string,
     priorite?: number
@@ -20,16 +20,20 @@ export type Task = {
 
 }
 
+//Faire une fonction utilitaire qui avec l'id d'une tache 
+// construit une tache (et pourra recup le nom en particulier)
+// a partir de callGetTask
+
 export const Task = () => {
 
-    const [selectedTask, setSelectedTask] = useState<string | null>(null);
+    const [selectedTask, setSelectedTask] = useState<Task | null >(null);
     const [open, setOpen] = useState(false);
     const [dataTask, setDataTask] = useState<Task[]>([])
 
      const loadTasks = async () => {
         try {
             const data = await callGetAllTasks()
-            console.log(data[0])
+          
             setDataTask(data)
         } catch (err) {
             console.error('Erreur lors du chargement des tâches', err)
@@ -41,9 +45,14 @@ export const Task = () => {
         loadTasks()
     }, [])
 
-    const handleEdit = (idTask: string) => {
-        setSelectedTask(idTask);
+    const handleEdit = async (idTask: string) => {
+        const data = await callGetTasks(idTask)
+
+
+        console.log(`=>  `,data)
+        setSelectedTask(data);
         setOpen(true);
+        await loadTasks()
     };
 
     async function handleDelete(idTask : string) {
@@ -55,28 +64,50 @@ export const Task = () => {
     async function handleAdd() {
         setSelectedTask(null)
         setOpen(true);
+        await loadTasks()
+    
     //    await callCreateTask() dans le handler de setTaskDialog
     }  
 
-    const handleSubmitTask = (data: Task) => {
-        console.log(`test before !!! => `,data)
+    const handleSubmitTask = async (data: Task | null) => {
+        console.log(`test before !!! => `,data?.taskName)
 
-        if(!data.id)
+        if(!data?.id)
         {
             console.log(`test Create =>  ${data}`)
-            callCreateTask(data)
+            await callCreateTask(data)
         }
         else
         {
-            console.log(`test UPDATE =>  ${data}`)
+            console.log(`test UPDATE =>  `,data)
+//faut que je recup l'id ou que je retrp
+            await callUpdateTask(data)
 
-            callUpdateTask(data)
 
         }
         console.log("Tâche traitée :", data); //appel a post ou put 
+        await loadTasks()
+
         setOpen(false); // pour fermer le dialogue
-        loadTasks()
       };
+
+      const handleUpdateDone = async (id:string)=>{
+
+        
+        const data=await callGetTasks(id);
+        console.log(`test update done =>  `,data.isDone)
+        if(data.isDone)
+        {
+            data.isDone="false"
+        }
+        else
+        {
+            data.isDone="true"
+        }
+        await callUpdateTask(data)
+        await loadTasks()
+        console.log("Tâche traitée :", data); 
+      }
       
 
 
@@ -85,9 +116,9 @@ export const Task = () => {
         <main className="flex flex-col gap-4 w-full p-6">
             <HeaderTask handleAdd={handleAdd} />
 
-            <SetTaskDialog taskName={selectedTask} open={open} setOpen={setOpen} parameterSubmit={handleSubmitTask}/>
+            <SetTaskDialog taskValue={selectedTask} open={open} setOpen={setOpen} parameterSubmit={handleSubmitTask}/>
 
-            <DataTable columns={columns({ handleEdit, handleDelete,handleAdd})} data={dataTask}/>
+            <DataTable columns={columns({ handleEdit, handleDelete, handleAdd })} data={dataTask} handleSubmitChange={handleUpdateDone}/>
 
         </main>
     );

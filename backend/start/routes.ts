@@ -11,15 +11,15 @@ import router from '@adonisjs/core/services/router'
 import User from '#models/user'
 import  AuthController  from '#controllers/auth_controller'
 import TasksController from '#controllers/tasks_controller'
+import { middleware } from './kernel.js'
 
-router.get('/', () => {
-  return {
-    hello: 'world',
-  }
-})
 
 router.group(() => {
   router.post('register', [AuthController, 'register'])
+  router.post('login', [AuthController, 'login'])
+  router.post('logout', [AuthController, 'logout']).use(middleware.auth())
+
+
 
   router.post(':id/tokens', async ({ params }) => {
     const user = await User.findOrFail(params.id)
@@ -30,6 +30,7 @@ router.group(() => {
       value: token.value!.release(),
     }
   })
+  router.get('me', [AuthController, 'me']).use(middleware.auth())
 }).prefix('user')
 
 router.group(()=> {
@@ -44,8 +45,4 @@ router.group(()=> {
 })
 .prefix('task')
 
-
-router.get('/posts/:id', ({ params }) => {
-  return `This is post with id ${params.id}`
-})
 
