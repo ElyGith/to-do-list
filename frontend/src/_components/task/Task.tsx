@@ -48,8 +48,6 @@ export const Task = () => {
     const handleEdit = async (idTask: string) => {
         const data = await callGetTasks(idTask)
 
-
-        console.log(`=>  `,data)
         setSelectedTask(data);
         setOpen(true);
         await loadTasks()
@@ -70,7 +68,7 @@ export const Task = () => {
     }  
 
     const handleSubmitTask = async (data: Task | null) => {
-        console.log(`test before !!! => `,data?.taskName)
+      //  console.log(`test before !!! => `,data?.taskName)
 
         if(!data?.id)
         {
@@ -95,7 +93,7 @@ export const Task = () => {
 
         
         const data=await callGetTasks(id);
-        console.log(`test update done =>  `,data.isDone)
+       // console.log(`test update done =>  `,data.isDone)
         if(data.isDone)
         {
             data.isDone="false"
@@ -106,7 +104,7 @@ export const Task = () => {
         }
         await callUpdateTask(data)
         await loadTasks()
-        console.log("Tâche traitée :", data); 
+        //console.log("Tâche traitée :", data); 
       }
       
 

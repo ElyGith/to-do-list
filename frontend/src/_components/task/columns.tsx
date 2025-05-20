@@ -6,6 +6,8 @@ import type { ColumnDef } from "@tanstack/react-table"
 import { ActionsCell } from "./ActionsCell"
 import type { Task } from "./Task"
 
+import { formatDate } from "@/utils/formatDate"
+
 type ColumnsProps = {
     handleEdit: (id: string) => void;
     handleDelete: (id: string) => void;
@@ -27,10 +29,19 @@ export const columns = ({ handleEdit, handleDelete,handleAdd }: ColumnsProps): C
     {
         accessorKey: "updatedAt",
         header: "updatedAt",
+        cell: (row) => {
+            const task = row.row.original
+            return formatDate(task.updatedAt ?? "")
+        }
     },
     {
         accessorKey:"liste",
         header:"liste",
+    },
+    {
+        accessorKey:"priorite",
+        header:"priorite",
+
     },
     {
     id: "actions",

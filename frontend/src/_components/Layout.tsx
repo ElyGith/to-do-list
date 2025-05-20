@@ -4,9 +4,13 @@ import { Task } from './task/Task'
 
 export const Layout = () => {
     return (
-        <div className="flex h-screen">
+        <div className="min-h-screen flex flex-col">
+
+        <div className="flex flex-1">
             <SideBar />
             <Task />
         </div>
+        </div>
+
     );          
 };

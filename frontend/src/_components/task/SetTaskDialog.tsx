@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
-import type { Task } from "./Task"
+import { Task } from "./Task"
 
 export type propSetTaskDialog = {
 
@@ -23,7 +23,14 @@ export type propSetTaskDialog = {
 
 
 export function SetTaskDialog({ taskValue, open,setOpen,parameterSubmit}: propSetTaskDialog) {
-    const {
+    const emptyValue =
+    {
+        taskName: "nom d'une tache",
+        priorite: 1
+    };
+
+
+const {
         register,
         reset,
         handleSubmit,
@@ -32,15 +39,7 @@ export function SetTaskDialog({ taskValue, open,setOpen,parameterSubmit}: propSe
         {
             mode: "onTouched",    
             reValidateMode: "onBlur",
-            defaultValues: taskValue || {
-                id: "",
-                taskName: "",
-                isDone:"",
-                note: "",
-                liste:"",
-                priorite:1
-            
-            }
+            defaultValues: taskValue? taskValue: emptyValue,
         }
     );
 
@@ -50,10 +49,12 @@ export function SetTaskDialog({ taskValue, open,setOpen,parameterSubmit}: propSe
 
     useEffect(() => {
         if (taskValue == null) {
-            reset();
+            reset(emptyValue);
             setTitle("Crée une nouvelle tâche")
         } else {
-            reset();
+            console.log("taskValue =>< :",taskValue);
+            reset(taskValue);
+            
             setTitle(`Modifier la tâche : ${taskValue.id}`)
         }
     }, [taskValue,reset])  

@@ -53,7 +53,7 @@ export default class TasksController {
 
         const data = await addTaskValidator.validate(dataSanake)
         
-        task.updated_at = DateTime.now() 
+        task.updated_at = DateTime.now()
         task.merge(data)
         await task.save()
         return response.status(200).send(task)

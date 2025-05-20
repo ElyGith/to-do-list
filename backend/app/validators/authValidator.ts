@@ -12,6 +12,7 @@ export const registerValidator = vine.compile(vine.object({
         .minLength(8)
         .maxLength(32)
         .confirmed(),
+        
         full_name : vine.string().minLength(3).maxLength(32),
 }))
 

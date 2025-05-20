@@ -22,7 +22,7 @@ const sidebarVariants = {
 
 export const SideBar = () => {
     return (
-        <aside className="h-full bg-gray-800 text-white p-4 ">
+        <aside className="h-auto bg-gray-800 text-white p-4 ">
         <h2 className="text-xl font-bold mb-4">Menu</h2>
             <ul > 
                 <li>

@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button"
 import { Plus } from "lucide-react"
-import type { Task } from "./task/Task" 
 
 
 type HeaderTaskProps = {

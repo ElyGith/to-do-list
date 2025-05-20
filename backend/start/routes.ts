@@ -33,6 +33,7 @@ router.group(() => {
   router.get('me', [AuthController, 'me']).use(middleware.auth())
 }).prefix('user')
 
+router.get("/dashboard", [TasksController, 'getTasks'])
 router.group(()=> {
   router.get("/search", [TasksController, 'getTaskSearch'])
   router.get(':name', [TasksController, 'getTasks'])
